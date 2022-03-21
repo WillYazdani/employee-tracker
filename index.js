@@ -3,21 +3,31 @@ const db = require('./db/connection');
 require('console.table');
 
 const init = () => {
-    inquirer.prompt({
+    return inquirer.prompt([{
         name: "selection",
         type: "list",
         choices: ["Add an employee", "Add a department", "Add a role", "View all employees", "View all departments", "View all roles"]
-    })
+    }])
     .then(data => {
         if (data.selection === "Add an employee") {
             enterEmployee()
+        } else if (data.selection === "Add a department") {
+            enterDepartment()
+        } else if (data.selection === "Add a role") {
+            enterRole()
+        } else if (data.selection === "View all employees") {
+            viewEmployees()
+        } else if (data.selection === "View all departments") {
+            viewDepartments()
+        } else if (data.selection === "View all roles") {
+            viewRoles()
         }
     })
 };
 
 const enterEmployee = () => {
     inquirer.prompt ({
-        name: "employee_first_name",
+        name: "firstName",
         type: "input",
         message: "Enter employee first name."
     })
@@ -31,6 +41,6 @@ const enterEmployee = () => {
             }
         })
     })
-};
+}
 
 init();
