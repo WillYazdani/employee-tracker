@@ -29,7 +29,7 @@ const enterEmployee = () => {
     inquirer.prompt ({
         name: "firstName",
         type: "input",
-        message: "Enter employee first name."
+        message: "Enter employee first name:"
     })
     .then(data => {
         db.query(`INSERT INTO employee (first_name) VALUES (?);`, data.first_name, (err) => {
@@ -42,5 +42,75 @@ const enterEmployee = () => {
         })
     })
 }
+
+const enterDepartment = () => {
+    inquirer.prompt ({
+        name: "department",
+        type: "input",
+        message: "Enter department name:"
+    })
+    .then(data => {
+        db.query(`INSERT INTO department (name) VALUES (?);`, data.department, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Department added.");
+                init();
+            }
+        })
+    })
+}
+
+const enterRole = () => {
+    inquirer.prompt ({
+        name: "role",
+        type: "input",
+        message: "Enter role name:"
+    })
+    .then(data => {
+        db.query(`INSERT INTO role (name) VALUES (?);`, data.role, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Role added.");
+                init();
+            }
+        })
+    })
+}
+
+const viewEmployees = () => {
+    db.query("SELECT * FROM employee", (err, res) => {
+        if (err) {
+            throw err
+        } else {
+            console.table(res)
+            init();
+        }
+    })
+}
+
+const viewRoles = () => {
+    db.query("SELECT * FROM roles", (err, res) => {
+        if (err) {
+            throw err
+        } else {
+            console.table(res)
+            init();
+        }
+    })
+}
+
+const viewDepartments = () => {
+    db.query("SELECT * FROM department", (err, res) => {
+        if (err) {
+            throw err
+        } else {
+            console.table(res)
+            init();
+        }
+    })
+}
+
 
 init();
