@@ -58,14 +58,14 @@ const enterRole = () => {
                 message: "Enter role salary:"
             },
             {
-                name: "role_department",
+                name: "department_id",
                 type: "input",
-                message: "Enter role department:"
+                message: "Enter department id#:"
             }
         ])
     .then(data => {
         db.query(`INSERT INTO roles (roles, salary, department_id) VALUES (?, ?, ?);`,
-        data.role, data.salary, data.role_department, (err) => {
+        [data.role, data.salary, data.department_id], (err) => {
             if (err) {
                 throw err
             } else {
@@ -106,15 +106,16 @@ const enterEmployee = () => {
             }
         ])
     .then(data => {
-        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?);`, data.first_name, (err) => {
+        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);`,
+        [data.first_name, data.last_name, data.role_id, data.manager_first_name, data.manager_last_name], (err) => {
             if (err) {
                 throw err
             } else {
-                console.log("First name added.");
+                console.log("Employee added.");
                 init();
             }
         })
-    })
+    }
 };
 
 const viewEmployees = () => {
