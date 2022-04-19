@@ -25,6 +25,57 @@ const init = () => {
     })
 };
 
+const enterDepartment = () => {
+    inquirer.prompt ({
+        name: "department",
+        type: "input",
+        message: "Enter department name:"
+    })
+    .then(data => {
+        db.query(`INSERT INTO departments (departments) VALUES (?);`,
+        data.department, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Department added.");
+                init();
+            }
+        })
+    })
+};
+
+const enterRole = () => {
+    inquirer
+        .prompt ([
+            {
+                name: "role",
+                type: "input",
+                message: "Enter role name:"
+            },
+            {
+                name: "salary",
+                type: "input",
+                message: "Enter role salary:"
+            },
+            {
+                name: "role_department",
+                type: "input",
+                message: "Enter role department:"
+            }
+        ])
+    .then(data => {
+        db.query(`INSERT INTO roles (roles, salary, department_id) VALUES (?, ?, ?);`,
+        data.role, data.salary, data.role_department, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Role added.");
+                init();
+            }
+        })
+    })
+};
+
 const enterEmployee = () => {
     inquirer
         .prompt ([
@@ -66,57 +117,8 @@ const enterEmployee = () => {
     })
 };
 
-const enterDepartment = () => {
-    inquirer.prompt ({
-        name: "department",
-        type: "input",
-        message: "Enter department name:"
-    })
-    .then(data => {
-        db.query(`INSERT INTO departments (name) VALUES (?);`, data.department, (err) => {
-            if (err) {
-                throw err
-            } else {
-                console.log("Department added.");
-                init();
-            }
-        })
-    })
-};
-
-const enterRole = () => {
-    inquirer
-        .prompt ([
-            {
-                name: "role",
-                type: "input",
-                message: "Enter role name:"
-            },
-            {
-                name: "salary",
-                type: "input",
-                message: "Enter role salary:"
-            },
-            {
-                name: "role_department",
-                type: "input",
-                message: "Enter role department:"
-            }
-        ])
-    .then(data => {
-        db.query(`INSERT INTO roles (name) VALUES (?);`, data.role, (err) => {
-            if (err) {
-                throw err
-            } else {
-                console.log("Role added.");
-                init();
-            }
-        })
-    })
-};
-
 const viewEmployees = () => {
-    db.query("SELECT * FROM employee", (err, res) => {
+    db.query("SELECT * FROM employees", (err, res) => {
         if (err) {
             throw err
         } else {
@@ -138,7 +140,7 @@ const viewRoles = () => {
 };
 
 const viewDepartments = () => {
-    db.query("SELECT * FROM department", (err, res) => {
+    db.query("SELECT * FROM departments", (err, res) => {
         if (err) {
             throw err
         } else {
