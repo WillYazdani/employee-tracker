@@ -26,13 +26,36 @@ const init = () => {
 };
 
 const enterEmployee = () => {
-    inquirer.prompt ({
-        name: "firstName",
-        type: "input",
-        message: "Enter employee first name:"
-    })
+    inquirer
+        .prompt ([
+            {
+                name: "first_name",
+                type: "input",
+                message: "Enter employee first name:"
+            },
+            {
+                name: "last_name",
+                type: "input",
+                message: "Enter employee last name:"
+            },
+            {
+                name: "employee_role",
+                type: "input",
+                message: "Enter employee role:"
+            },
+            {
+                name: "manager_first_name",
+                type: "input",
+                message: "Enter employee manager first name:"
+            },
+            {
+                name: "manager_last_name",
+                type: "input",
+                message: "Enter employee manager last name:"
+            }
+        ])
     .then(data => {
-        db.query(`INSERT INTO employee (first_name) VALUES (?);`, data.first_name, (err) => {
+        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?);`, data.first_name, (err) => {
             if (err) {
                 throw err
             } else {
@@ -41,7 +64,7 @@ const enterEmployee = () => {
             }
         })
     })
-}
+};
 
 const enterDepartment = () => {
     inquirer.prompt ({
@@ -50,7 +73,7 @@ const enterDepartment = () => {
         message: "Enter department name:"
     })
     .then(data => {
-        db.query(`INSERT INTO department (name) VALUES (?);`, data.department, (err) => {
+        db.query(`INSERT INTO departments (name) VALUES (?);`, data.department, (err) => {
             if (err) {
                 throw err
             } else {
@@ -59,16 +82,29 @@ const enterDepartment = () => {
             }
         })
     })
-}
+};
 
 const enterRole = () => {
-    inquirer.prompt ({
-        name: "role",
-        type: "input",
-        message: "Enter role name:"
-    })
+    inquirer
+        .prompt ([
+            {
+                name: "role",
+                type: "input",
+                message: "Enter role name:"
+            },
+            {
+                name: "salary",
+                type: "input",
+                message: "Enter role salary:"
+            },
+            {
+                name: "role_department",
+                type: "input",
+                message: "Enter role department:"
+            }
+        ])
     .then(data => {
-        db.query(`INSERT INTO role (name) VALUES (?);`, data.role, (err) => {
+        db.query(`INSERT INTO roles (name) VALUES (?);`, data.role, (err) => {
             if (err) {
                 throw err
             } else {
@@ -77,7 +113,7 @@ const enterRole = () => {
             }
         })
     })
-}
+};
 
 const viewEmployees = () => {
     db.query("SELECT * FROM employee", (err, res) => {
@@ -88,7 +124,7 @@ const viewEmployees = () => {
             init();
         }
     })
-}
+};
 
 const viewRoles = () => {
     db.query("SELECT * FROM roles", (err, res) => {
@@ -99,7 +135,7 @@ const viewRoles = () => {
             init();
         }
     })
-}
+};
 
 const viewDepartments = () => {
     db.query("SELECT * FROM department", (err, res) => {
@@ -110,7 +146,7 @@ const viewDepartments = () => {
             init();
         }
     })
-}
+};
 
 
 init();
