@@ -95,19 +95,15 @@ const enterEmployee = () => {
                 message: "Enter employee role:"
             },
             {
-                name: "manager_first_name",
+                name: "manager_id",
                 type: "input",
-                message: "Enter employee manager first name:"
+                message: "Enter manager employee id#:"
             },
-            {
-                name: "manager_last_name",
-                type: "input",
-                message: "Enter employee manager last name:"
-            }
         ])
     .then(data => {
+        data.manager_id ? managerId = data.manager_id : managerId = null;
         db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);`,
-        [data.first_name, data.last_name, data.role_id, data.manager_first_name, data.manager_last_name], (err) => {
+        [data.first_name, data.last_name, data.employee_role, managerId], (err) => {
             if (err) {
                 throw err
             } else {
@@ -115,7 +111,7 @@ const enterEmployee = () => {
                 init();
             }
         })
-    }
+    })
 };
 
 const viewEmployees = () => {
