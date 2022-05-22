@@ -6,7 +6,7 @@ const init = () => {
     return inquirer.prompt([{
         name: "selection",
         type: "list",
-        choices: ["Add an employee", "Add a department", "Add a role", "View all employees", "View all departments", "View all roles"]
+        choices: ["Add an employee", "Add a department", "Add a role", "View all employees", "View all departments", "View all roles", "Delete an employee", "Delete a department", "Delete a role"],
     }])
     .then(data => {
         if (data.selection === "Add an employee") {
@@ -21,7 +21,13 @@ const init = () => {
             viewDepartments()
         } else if (data.selection === "View all roles") {
             viewRoles()
-        }
+        } else if (data.selection === "Delete an employee") {
+            deleteEmployee()
+        } else if (data.selection === "Delete a role") {
+            deleteRole()
+        } else if (data.selection === "Delete a department") { 
+            deleteDepartment()
+        } 
     })
 };
 
@@ -108,6 +114,72 @@ const enterEmployee = () => {
                 throw err
             } else {
                 console.log("Employee added.");
+                init();
+            }
+        })
+    })
+};
+
+const deleteEmployee = () => {
+    inquirer
+        .prompt ([
+            {
+                name: "employee_id",
+                type: "input",
+                message: "Enter employee id#:"
+            }
+        ])
+    .then(data => {
+        db.query(`DELETE FROM employees WHERE id = ?;`,
+        data.employee_id, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Employee deleted.");
+                init();
+            }
+        })
+    })
+};
+
+const deleteRole = () => {
+    inquirer
+        .prompt ([
+            {
+                name: "role_id",
+                type: "input",
+                message: "Enter role id#:"
+            }
+        ])
+    .then(data => {
+        db.query(`DELETE FROM roles WHERE id = ?;`,
+        data.role_id, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Role deleted.");
+                init();
+            }
+        })
+    })
+};
+
+const deleteDepartment = () => {
+    inquirer
+        .prompt ([
+            {
+                name: "department_id",
+                type: "input",
+                message: "Enter department id#:"
+            }
+        ])
+    .then(data => {
+        db.query(`DELETE FROM departments WHERE id = ?;`,
+        data.department_id, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log("Department deleted.");
                 init();
             }
         })
